@@ -1,6 +1,8 @@
 package com.codeup.springbootblog.controllers;
 
+import com.codeup.springbootblog.daos.UsersRepository;
 import com.codeup.springbootblog.models.Post;
+import com.codeup.springbootblog.models.User;
 import com.codeup.springbootblog.services.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +13,12 @@ import java.util.List;
 @Controller
 public class PostController {
     private final PostService service;
+    private final UsersRepository usersRepository;
 
 
-    public PostController(PostService service) {
+    public PostController(PostService service, UsersRepository usersRepository) {
         this.service = service;
+        this.usersRepository = usersRepository;
     }
 
     @RequestMapping("/posts")
@@ -42,6 +46,8 @@ public class PostController {
         @PostMapping("/posts/create")
         @ResponseBody
         public String createPost(@ModelAttribute Post post) {
+        User user = usersRepository.findOne("1L");
+        post.setUser(user);
         service.save(post);
             return "redirect:/posts";
         }

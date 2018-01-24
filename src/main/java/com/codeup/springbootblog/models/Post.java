@@ -2,10 +2,7 @@ package com.codeup.springbootblog.models;
 
 import org.hibernate.annotations.Entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "posts")
@@ -21,6 +18,9 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String body;
 
+    @ManyToOne
+    private User user;
+
 
     public void setId(long id) {
         this.id = id;
@@ -30,9 +30,10 @@ public class Post {
         return id;
     }
 
-    public Post(String title, String body) {
+    public Post(String title, String body, User user) {
         this.body = body;
         this.title = title;
+        this.user = user;
     }
 
     public Post() {
@@ -54,6 +55,7 @@ public class Post {
     public void setBody(String body) {
         this.body = body;
     }
+
 }
 
 
